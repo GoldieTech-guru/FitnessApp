@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FitnessPal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Dashboard Header */
+        .dashboard-header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .dashboard-header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Dashboard Container */
+        .dashboard-container {
+            padding: 30px 0;
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 80px);
+        }
+        
+        /* Welcome Section */
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+        
+        .welcome-section h1 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .welcome-section p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        #current-date {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(46, 204, 113, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .stat-info h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .stat-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Workout Options */
+        .workout-options {
+            margin-bottom: 40px;
+        }
+        
+        .workout-options h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .workout-option-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .workout-option-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .workout-option-image {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .workout-option-content {
+            padding: 20px;
+        }
+        
+        .workout-option-content h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .workout-option-content p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background-color: #27ae60;
+        }
+        
+        /* Weight Tracker */
+        .weight-tracker {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .weight-tracker h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .weight-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-end;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-submit {
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .form-submit:hover {
+            background-color: #27ae60;
+        }
+        
+        .weight-history {
+            margin-top: 30px;
+        }
+        
+        .weight-history h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .weight-history ul {
+            list-style: none;
+        }
+        
+        .weight-history li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .weight-date {
+            color: var(--gray);
+        }
+        
+        .weight-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* Hydration Tracker */
+        .hydration-tracker {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .hydration-tracker h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .hydration-display {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .hydration-progress {
+            flex: 0 0 auto;
+        }
+        
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) 0% var(--progress, 0%), #eee var(--progress, 0%) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+        }
+        
+        .progress-text {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .progress-text span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: block;
+        }
+        
+        .progress-text small {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+        
+        .hydration-controls {
+            flex: 1;
+        }
+        
+        .hydration-controls h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .hydration-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .water-btn {
+            padding: 10px 15px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .water-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .hydration-goal {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .hydration-goal label {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .hydration-goal input {
+            width: 80px;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        /* Fitness Facts */
+        .fitness-facts {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .fitness-facts h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .fact-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fact-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 120px;
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+        
+        .fact-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .fact-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Workout Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .workout-details h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .workout-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .workout-image {
+            flex: 0 0 300px;
+            height: 200px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .workout-meta {
+            flex: 1;
+        }
+        
+        .workout-meta h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--gray);
+        }
+        
+        .exercises-list {
+            margin-top: 30px;
+        }
+        
+        .exercises-list h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .exercise-item {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .exercise-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        
+        .exercise-content {
+            flex: 1;
+        }
+        
+        .exercise-content h4 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        .exercise-content p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .completion-message {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        /* Meal Recommendations */
+        .meal-recommendations {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .meal-recommendations h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .meal-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+        
+        .meal-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .meal-content {
+            padding: 20px;
+        }
+        
+        .meal-content h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .meal-content p {
+            color: var(--gray);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .meal-macros {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .macro {
+            background: rgba(46, 204, 113, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .workout-info {
+                flex-direction: column;
+            }
+            
+            .workout-image {
+                flex: 0 0 200px;
+            }
+            
+            .weight-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .hydration-display {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitnessPal</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="workouts.js">Workouts</a></li>
+                    <li><a href="nutrition.js">Nutrition</a></li>
+                    <li><a href="">Progress</a></li>
+                    <li><a href="">Settings</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">Hello, User!</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Main Content -->
+    <main class="dashboard-container">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h1>Welcome back to your fitness journey!</h1>
+                <p>Today is <span id="current-date"></span>. Here's your daily plan:</p>
+            </section>
+
+            <!-- Stats Overview -->
+            <section class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1,240</h3>
+                        <p>Calories Burned</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shoe-prints"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>8,560</h3>
+                        <p>Steps Today</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-glass-whiskey"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="water-amount">0.0L</h3>
+                        <p>Water Intake</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-weight"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="current-weight">-</h3>
+                        <p>Current Weight</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workout Options -->
+            <section class="workout-options">
+                <h2>Choose Your Workout Plan</h2>
+                <div class="workout-grid">
+                    <div class="workout-option-card" data-workout="glutes">
+                        <div class="workout-option-image" style="background-image: url('https://images.unsplash.com/photo-1536922246289-88c42f957773?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="workout-option-content">
+                            <h3>Glute Building</h3>
+                            <p>4-week intensive program focused on building and shaping your glutes.</p>
+                            <button class="btn view-workout">View Plan</button>
+                        </div>
+                    </div>
+                    <div class="workout-option-card" data-workout="weightloss">
+                        <div class="workout-option-image" style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="workout-option-content">
+                            <h3>Weight Loss</h3>
+                            <p>Cardio and strength training combination to help you lose weight effectively.</p>
+                            <button class="btn view-workout">View Plan</button>
+                        </div>
+                    </div>
+                    <div class="workout-option-card" data-workout="musclegain">
+                        <div class="workout-option-image" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="workout-option-content">
+                            <h3>Muscle Gain</h3>
+                            <p>Build muscle mass with this strength-focused training program.</p>
+                            <button class="btn view-workout">View Plan</button>
+                        </div>
+                    </div>
+                    <div class="workout-option-card" data-workout="abs">
+                        <div class="workout-option-image" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="workout-option-content">
+                            <h3>Core & Abs</h3>
+                            <p>Strengthen your core and develop defined abdominal muscles.</p>
+                            <button class="btn view-workout">View Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Weight Tracker -->
+            <section class="weight-tracker">
+                <h2>Track Your Weight</h2>
+                <form class="weight-form" id="weight-form">
+                    <div class="form-group">
+                        <label for="weight-input">Current Weight (kg)</label>
+                        <input type="number" id="weight-input" step="0.1" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight-date">Date</label>
+                        <input type="date" id="weight-date" required>
+                    </div>
+                    <button type="submit" class="form-submit">Save Weight</button>
+                </form>
+                <div class="weight-history">
+                    <h3>Weight History</h3>
+                    <ul id="weight-list">
+                        <!-- Will be populated by JavaScript -->
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Hydration Tracker -->
+            <section class="hydration-tracker">
+                <h2>Hydration Tracker</h2>
+                <div class="hydration-display">
+                    <div class="hydration-progress">
+                        <div class="progress-circle">
+                            <div class="progress-text">
+                                <span id="water-display">0.0L</span>
+                                <small>of <span id="water-goal">3</span>L</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hydration-controls">
+                        <h3>Stay Hydrated!</h3>
+                        <p>Track your daily water intake</p>
+                        <div class="hydration-buttons">
+                            <button class="water-btn" data-change="-0.25"><i class="fas fa-minus"></i> 250ml</button>
+                            <button class="water-btn" data-change="0.25"><i class="fas fa-plus"></i> 250ml</button>
+                            <button class="water-btn" data-change="0.5"><i class="fas fa-plus"></i> 500ml</button>
+                        </div>
+                        <div class="hydration-goal">
+                            <label for="water-goal-input">Daily Goal (L):</label>
+                            <input type="number" id="water-goal-input" min="1" max="10" step="0.5" value="3">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Meal Recommendations -->
+            <section class="meal-recommendations">
+                <h2>Recommended Meals for Your Workout</h2>
+                <div class="meal-card">
+                    <div class="meal-image" style="background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="meal-content">
+                        <h3>Post-Workout Protein Shake</h3>
+                        <p>Ideal for muscle recovery after strength training sessions.</p>
+                        <p><strong>Ingredients:</strong> Protein powder, banana, almond milk, peanut butter, ice</p>
+                        <div class="meal-macros">
+                            <span class="macro">Protein: 30g</span>
+                            <span class="macro">Carbs: 35g</span>
+                            <span class="macro">Fat: 10g</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="meal-card">
+                    <div class="meal-image" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="meal-content">
+                        <h3>Grilled Chicken with Quinoa</h3>
+                        <p>Perfect lean meal for muscle building days.</p>
+                        <p><strong>Ingredients:</strong> Chicken breast, quinoa, broccoli, olive oil, spices</p>
+                        <div class="meal-macros">
+                            <span class="macro">Protein: 40g</span>
+                            <span class="macro">Carbs: 45g</span>
+                            <span class="macro">Fat: 12g</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fitness Facts -->
+            <section class="fitness-facts">
+                <h2>Did You Know?</h2>
+                <div class="fact-card">
+                    <h3>Fitness Fact of the Day</h3>
+                    <p id="fitness-fact">Regular exercise can improve your mood and reduce feelings of anxiety and depression by releasing endorphins, the body's natural feel-good chemicals.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Workout Detail Modal -->
+    <div class="modal" id="workout-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="workout-details" id="workout-details">
+                <!-- Content will be loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FitnessPal</h3>
+                    <p>Your personal fitness companion helping you achieve your health and wellness goals through personalized plans and daily support.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="workouts.html">Workout Plans</a></li>
+                        <li><a href="nutrition.html">Nutrition</a></li>
+                        <li><a href="progress.html">Progress Tracking</a></li>
+                        <li><a href="#">Settings</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 FitnessPal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Workout data with meal recommendations
+        const workoutData = {
+            glutes: {
+                title: "Glute Building Program",
+                image: "https://images.unsplash.com/photo-1536922246289-88c42f957773?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                duration: "4 weeks",
+                intensity: "Medium to High",
+                equipment: "Resistance bands, Dumbbells, Barbell",
+                description: "This 4-week intensive program is designed to help you build and shape your glutes through targeted exercises and progressive overload.",
+                exercises: [
+                    {
+                        name: "Hip Thrusts",
+                        sets: "3 sets of 12 reps",
+                        description: "Focus on squeezing your glutes at the top of the movement."
+                    },
+                    {
+                        name: "Bulgarian Split Squats",
+                        sets: "3 sets of 10 reps each leg",
+                        description: "Keep your front knee aligned with your ankle."
+                    },
+                    {
+                        name: "Romanian Deadlifts",
+                        sets: "3 sets of 12 reps",
+                        description: "Maintain a slight bend in your knees and focus on hinging at the hips."
+                    },
+                    {
+                        name: "Glute Bridges",
+                        sets: "3 sets of 15 reps",
+                        description: "Squeeze your glutes at the top and hold for 2 seconds."
+                    },
+                    {
+                        name: "Cable Kickbacks",
+                        sets: "3 sets of 12 reps each leg",
+                        description: "Keep your core engaged and avoid arching your back."
+                    }
+                ],
+                mealRecommendation: {
+                    title: "High-Protein Glute Building Meal",
+                    description: "After glute workouts, your muscles need protein for recovery and growth.",
+                    ingredients: "Grilled salmon, sweet potato, asparagus, olive oil",
+                    macros: "Protein: 35g, Carbs: 50g, Fat: 15g",
+                    image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }
+            },
+            weightloss: {
+                title: "Weight Loss Program",
+                image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                duration: "8 weeks",
+                intensity: "High",
+                equipment: "Treadmill, Dumbbells, Mat",
+                description: "This cardio and strength training combination is designed to maximize calorie burn and help you lose weight effectively.",
+                exercises: [
+                    {
+                        name: "Interval Running",
+                        sets: "20 minutes (1 min sprint, 2 min walk)",
+                        description: "High intensity interval training to boost metabolism."
+                    },
+                    {
+                        name: "Circuit Training",
+                        sets: "3 rounds of 10 exercises",
+                        description: "Full body workout with minimal rest between exercises."
+                    },
+                    {
+                        name: "Jumping Rope",
+                        sets: "5 sets of 2 minutes",
+                        description: "Great for cardiovascular health and calorie burning."
+                    },
+                    {
+                        name: "Bodyweight Squats",
+                        sets: "4 sets of 15 reps",
+                        description: "Focus on form and controlled movements."
+                    },
+                    {
+                        name: "Mountain Climbers",
+                        sets: "4 sets of 30 seconds",
+                        description: "Engage your core and maintain a steady pace."
+                    }
+                ],
+                mealRecommendation: {
+                    title: "Low-Calorie Nutrient Dense Meal",
+                    description: "After weight loss workouts, fuel your body with nutrient-dense, low-calorie foods.",
+                    ingredients: "Grilled chicken breast, quinoa, mixed greens, lemon vinaigrette",
+                    macros: "Protein: 30g, Carbs: 35g, Fat: 8g",
+                    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }
+            },
+            musclegain: {
+                title: "Muscle Gain Program",
+                image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                duration: "12 weeks",
+                intensity: "High",
+                equipment: "Barbell, Dumbbells, Bench",
+                description: "This strength-focused training program is designed to help you build muscle mass through progressive overload and proper nutrition.",
+                exercises: [
+                    {
+                        name: "Barbell Bench Press",
+                        sets: "4 sets of 8-10 reps",
+                        description: "Focus on controlled movement and full range of motion."
+                    },
+                    {
+                        name: "Barbell Squats",
+                        sets: "4 sets of 8-10 reps",
+                        description: "Keep your chest up and back straight throughout the movement."
+                    },
+                    {
+                        name: "Deadlifts",
+                        sets: "4 sets of 6-8 reps",
+                        description: "Maintain a neutral spine and engage your core."
+                    },
+                    {
+                        name: "Pull-Ups",
+                        sets: "4 sets to failure",
+                        description: "Use assistance if needed to maintain proper form."
+                    },
+                    {
+                        name: "Overhead Press",
+                        sets: "4 sets of 8-10 reps",
+                        description: "Keep your core tight and avoid arching your back."
+                    }
+                ],
+                mealRecommendation: {
+                    title: "High-Calorie Muscle Building Meal",
+                    description: "After intense strength training, your body needs ample calories and protein for muscle growth.",
+                    ingredients: "Lean beef, brown rice, broccoli, avocado",
+                    macros: "Protein: 45g, Carbs: 60g, Fat: 20g",
+                    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }
+            },
+            abs: {
+                title: "Core & Abs Program",
+                image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                duration: "6 weeks",
+                intensity: "Medium",
+                equipment: "Mat, Stability ball, Dumbbells",
+                description: "This program focuses on strengthening your core and developing defined abdominal muscles through targeted exercises.",
+                exercises: [
+                    {
+                        name: "Plank",
+                        sets: "3 sets of 60 seconds",
+                        description: "Keep your body in a straight line and engage your core."
+                    },
+                    {
+                        name: "Russian Twists",
+                        sets: "3 sets of 20 reps",
+                        description: "Rotate your torso and keep your feet off the ground."
+                    },
+                    {
+                        name: "Leg Raises",
+                        sets: "3 sets of 15 reps",
+                        description: "Keep your lower back pressed into the floor."
+                    },
+                    {
+                        name: "Bicycle Crunches",
+                        sets: "3 sets of 20 reps",
+                        description: "Focus on bringing your elbow to the opposite knee."
+                    },
+                    {
+                        name: "Mountain Climbers",
+                        sets: "3 sets of 30 seconds",
+                        description: "Bring your knees to your chest in a controlled motion."
+                    }
+                ],
+                mealRecommendation: {
+                    title: "Lean Core Definition Meal",
+                    description: "After core workouts, support muscle definition with lean proteins and complex carbs.",
+                    ingredients: "Tuna steak, quinoa, roasted vegetables, olive oil",
+                    macros: "Protein: 35g, Carbs: 40g, Fat: 10g",
+                    image: "https://images.unsplash.com/photo-1559847844-d4a3dafd6f99?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                }
+            }
+        };
+
+        // Fitness facts data
+        const fitnessFacts = [
+            "Drinking water before meals can help with weight loss by making you feel fuller.",
+            "Regular exercise can improve your mood and reduce feelings of anxiety and depression.",
+            "Strength training helps boost your metabolism even when you're at rest.",
+            "Getting enough sleep is just as important as diet and exercise for fitness goals.",
+            "Stretching after workouts can improve flexibility and reduce muscle soreness.",
+            "Consistency is more important than intensity when building a fitness habit.",
+            "Eating protein after a workout helps repair and build muscles.",
+            "Walking is one of the most underrated forms of exercise for overall health."
+        ];
+
+        // Set current date
+        function setCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+            
+            // Set default date for weight form
+            const dateInput = document.getElementById('weight-date');
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            dateInput.value = `${year}-${month}-${day}`;
+        }
+
+        // Initialize workout modals
+        function initWorkoutModals() {
+            const workoutCards = document.querySelectorAll('.workout-option-card');
+            const workoutModal = document.getElementById('workout-modal');
+            const workoutDetails = document.getElementById('workout-details');
+            const closeModal = document.getElementById('close-modal');
+            
+            workoutCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const workoutType = this.getAttribute('data-workout');
+                    const workout = workoutData[workoutType];
+                    
+                    // Get user-specific completed exercises
+                    const userEmail = localStorage.getItem('userEmail') || 'default';
+                    const completedExercises = JSON.parse(localStorage.getItem(`completed-${userEmail}-${workoutType}`)) || [];
+                    
+                    // Check if all exercises are completed
+                    const allCompleted = completedExercises.length === workout.exercises.length;
+                    
+                    // Populate modal with workout data
+                    workoutDetails.innerHTML = `
+                        <h2>${workout.title}</h2>
+                        <div class="workout-info">
+                            <div class="workout-image" style="background-image: url('${workout.image}')"></div>
+                            <div class="workout-meta">
+                                <h3>Program Details</h3>
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Duration: ${workout.duration}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Intensity: ${workout.intensity}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-dumbbell"></i>
+                                    <span>Equipment: ${workout.equipment}</span>
+                                </div>
+                                <p>${workout.description}</p>
+                            </div>
+                        </div>
+                        <div class="exercises-list">
+                            <h3>Exercises</h3>
+                            ${workout.exercises.map((exercise, index) => `
+                                <div class="exercise-item">
+                                    <input type="checkbox" class="exercise-checkbox" data-workout="${workoutType}" data-index="${index}" 
+                                        ${completedExercises.includes(index) ? 'checked' : ''}>
+                                    <div class="exercise-content">
+                                        <h4>${exercise.name}</h4>
+                                        <p><strong>${exercise.sets}</strong> - ${exercise.description}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${allCompleted ? `
+                        <div class="completion-message">
+                            <i class="fas fa-trophy"></i> Today's program completed! Great job!
+                        </div>
+                        ` : ''}
+                        <div class="meal-recommendations" style="margin-top: 30px;">
+                            <h3>Recommended Meal After This Workout</h3>
+                            <div class="meal-card">
+                                <div class="meal-image" style="background-image: url('${workout.mealRecommendation.image}')"></div>
+                                <div class="meal-content">
+                                    <h3>${workout.mealRecommendation.title}</h3>
+                                    <p>${workout.mealRecommendation.description}</p>
+                                    <p><strong>Ingredients:</strong> ${workout.mealRecommendation.ingredients}</p>
+                                    <div class="meal-macros">
+                                        <span class="macro">${workout.mealRecommendation.macros.split(', ')[0]}</span>
+                                        <span class="macro">${workout.mealRecommendation.macros.split(', ')[1]}</span>
+                                        <span class="macro">${workout.mealRecommendation.macros.split(', ')[2]}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add event listeners to checkboxes
+                    const checkboxes = workoutDetails.querySelectorAll('.exercise-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.addEventListener('change', function() {
+                            const workoutType = this.getAttribute('data-workout');
+                            const exerciseIndex = parseInt(this.getAttribute('data-index'));
+                            const userEmail = localStorage.getItem('userEmail') || 'default';
+                            let completedExercises = JSON.parse(localStorage.getItem(`completed-${userEmail}-${workoutType}`)) || [];
+                            
+                            if (this.checked) {
+                                // Add to completed if not already there
+                                if (!completedExercises.includes(exerciseIndex)) {
+                                    completedExercises.push(exerciseIndex);
+                                }
+                            } else {
+                                // Remove from completed
+                                completedExercises = completedExercises.filter(i => i !== exerciseIndex);
+                            }
+                            
+                            localStorage.setItem(`completed-${userEmail}-${workoutType}`, JSON.stringify(completedExercises));
+                            
+                            // Check if all exercises are now completed
+                            const workout = workoutData[workoutType];
+                            const allCompleted = completedExercises.length === workout.exercises.length;
+                            
+                            // Show completion message if all exercises are completed
+                            if (allCompleted) {
+                                if (!document.querySelector('.completion-message')) {
+                                    const completionMessage = document.createElement('div');
+                                    completionMessage.className = 'completion-message';
+                                    completionMessage.innerHTML = '<i class="fas fa-trophy"></i> Today\'s program completed! Great job!';
+                                    workoutDetails.appendChild(completionMessage);
+                                }
+                            } else {
+                                // Remove completion message if it exists
+                                const completionMessage = document.querySelector('.completion-message');
+                                if (completionMessage) {
+                                    completionMessage.remove();
+                                }
+                            }
+                        });
+                    });
+                    
+                    // Show modal
+                    workoutModal.style.display = 'flex';
+                });
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                workoutModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === workoutModal) {
+                    workoutModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Weight tracking functionality
+        function initWeightTracking() {
+            const weightForm = document.getElementById('weight-form');
+            const weightList = document.getElementById('weight-list');
+            const currentWeight = document.getElementById('current-weight');
+            
+            // Get user-specific weight history
+            const userEmail = localStorage.getItem('userEmail') || 'default';
+            let weightHistory = JSON.parse(localStorage.getItem(`weightHistory-${userEmail}`)) || [];
+            
+            // Render weight history
+            function renderWeightHistory() {
+                weightList.innerHTML = '';
+                
+                if (weightHistory.length === 0) {
+                    weightList.innerHTML = '<li>No weight entries yet. Add your first weight measurement!</li>';
+                    currentWeight.textContent = '-';
+                    return;
+                }
+                
+                weightHistory.forEach(entry => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="weight-date">${entry.date}</span>
+                        <span class="weight-value">${entry.value} kg</span>
+                    `;
+                    weightList.appendChild(li);
+                });
+                
+                // Update current weight if there are entries
+                if (weightHistory.length > 0) {
+                    currentWeight.textContent = `${weightHistory[0].value}kg`;
+                }
+            }
+            
+            // Form submission
+            weightForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const weightValue = document.getElementById('weight-input').value;
+                const weightDate = new Date(document.getElementById('weight-date').value);
+                
+                if (weightValue && weightDate) {
+                    const options = { month: 'short', day: 'numeric', year: 'numeric' };
+                    const formattedDate = weightDate.toLocaleDateString('en-US', options);
+                    
+                    // Add to beginning of history
+                    weightHistory.unshift({
+                        date: formattedDate,
+                        value: parseFloat(weightValue).toFixed(1)
+                    });
+                    
+                    // Keep only last 10 entries
+                    if (weightHistory.length > 10) {
+                        weightHistory = weightHistory.slice(0, 10);
+                    }
+                    
+                    // Save to localStorage with user-specific key
+                    const userEmail = localStorage.getItem('userEmail') || 'default';
+                    localStorage.setItem(`weightHistory-${userEmail}`, JSON.stringify(weightHistory));
+                    
+                    // Update UI
+                    renderWeightHistory();
+                    
+                    // Reset form
+                    weightForm.reset();
+                    
+                    // Set date to today
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                    const day = now.getDate().toString().padStart(2, '0');
+                    document.getElementById('weight-date').value = `${year}-${month}-${day}`;
+                }
+            });
+            
+            // Initial render
+            renderWeightHistory();
+        }
+
+        // Hydration tracker functionality
+        function initHydrationTracker() {
+            const waterDisplay = document.getElementById('water-display');
+            const waterGoalInput = document.getElementById('water-goal-input');
+            const waterGoalDisplay = document.getElementById('water-goal');
+            const waterButtons = document.querySelectorAll('.water-btn');
+            const waterAmount = document.getElementById('water-amount');
+            const progressCircle = document.querySelector('.progress-circle');
+            
+            // Get user-specific water data
+            const userEmail = localStorage.getItem('userEmail') || 'default';
+            let waterIntake = parseFloat(localStorage.getItem(`waterIntake-${userEmail}`)) || 0;
+            let waterGoal = parseFloat(localStorage.getItem(`waterGoal-${userEmail}`)) || 3;
+            
+            // Update water goal display
+            waterGoalInput.value = waterGoal;
+            waterGoalDisplay.textContent = waterGoal;
+            
+            // Update hydration display
+            function updateHydrationDisplay() {
+                waterDisplay.textContent = `${waterIntake.toFixed(1)}L`;
+                waterAmount.textContent = `${waterIntake.toFixed(1)}L`;
+                
+                // Calculate progress percentage
+                const progressPercent = Math.min((waterIntake / waterGoal) * 100, 100);
+                progressCircle.style.background = `conic-gradient(var(--primary) 0% ${progressPercent}%, #eee ${progressPercent}% 100%)`;
+                
+                // Save to localStorage with user-specific key
+                localStorage.setItem(`waterIntake-${userEmail}`, waterIntake);
+            }
+            
+            // Water buttons
+            waterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const change = parseFloat(this.getAttribute('data-change'));
+                    waterIntake += change;
+                    
+                    // Ensure water intake doesn't go below 0
+                    if (waterIntake < 0) waterIntake = 0;
+                    
+                    updateHydrationDisplay();
+                });
+            });
+            
+            // Water goal change
+            waterGoalInput.addEventListener('change', function() {
+                waterGoal = parseFloat(this.value);
+                waterGoalDisplay.textContent = waterGoal;
+                
+                // Ensure goal is at least 1L
+                if (waterGoal < 1) {
+                    waterGoal = 1;
+                    this.value = 1;
+                    waterGoalDisplay.textContent = '1';
+                }
+                
+                // Save to localStorage with user-specific key
+                localStorage.setItem(`waterGoal-${userEmail}`, waterGoal);
+                
+                updateHydrationDisplay();
+            });
+            
+            // Initial update
+            updateHydrationDisplay();
+        }
+
+        // Fitness facts functionality
+        function initFitnessFacts() {
+            const factElement = document.getElementById('fitness-fact');
+            
+            // Get a random fact
+            const randomFact = fitnessFacts[Math.floor(Math.random() * fitnessFacts.length)];
+            factElement.textContent = randomFact;
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            setCurrentDate();
+            initWorkoutModals();
+            initWeightTracking();
+            initHydrationTracker();
+            initFitnessFacts();
+            
+            // Update user info
+            const userName = localStorage.getItem('userName') || 'User';
+            document.querySelector('.user-name').textContent = `Hello, ${userName}!`;
+            
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    // In a real app, this would clear auth tokens and redirect
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

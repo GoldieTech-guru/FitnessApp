@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitnessPal - Your Personal Fitness Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--dark);
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+        }
+        
+        .features {
+            padding: 100px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 20px;
+            margin: 15px;
+        }
+        
+        .step-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        .testimonial-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 350px;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            margin-right: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        /* Workout Plans Preview */
+        .workout-plans {
+            padding: 100px 0;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .plan-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .plan-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .plan-content {
+            padding: 20px;
+        }
+        
+        .plan-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .plan-content p {
+            margin-bottom: 15px;
+            color: var(--gray);
+        }
+        
+        /* Nutrition Section */
+        .nutrition {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .nutrition-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .nutrition-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .nutrition-content {
+            padding: 20px;
+        }
+        
+        .nutrition-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        /* Motivation Section */
+        .motivation {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+        }
+        
+        .quote {
+            font-size: 1.8rem;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        .author {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .modal-tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .modal-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .modal-tab.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .form-submit:hover {
+            background-color: #27ae60;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitnessPal</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#workouts">Workouts</a></li>
+                    <li><a href="#nutrition">Nutrition</a></li>
+                    <li><a href="#testimonials">Success Stories</a></li>
+                    <li><a href="#" id="login-btn">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Transform Your Body, Transform Your Life</h1>
+            <p>FitnessPal provides personalized workout plans, meal recommendations, and daily reminders to help you achieve your fitness goals faster and more effectively.</p>
+            <a href="#" class="btn" id="get-started-btn">Get Started Now</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Powerful Features</h2>
+                <p>Everything you need to achieve your fitness goals</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Personalized Workouts</h3>
+                    <p>Custom workout plans based on your specific goals: weight loss, muscle gain, toning, or combination goals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Daily Reminders</h3>
+                    <p>Never miss a workout with smart reminders that keep you motivated and on track with your fitness journey.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Meal Plans</h3>
+                    <p>Nutritionist-designed meal plans tailored to your dietary preferences and fitness objectives.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Workout Scheduling</h3>
+                    <p>Plan your workouts according to your availability and track your progress over time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Hydration Tracking</h3>
+                    <p>Monitor your water intake and receive reminders to stay hydrated throughout the day.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Analytics</h3>
+                    <p>Visualize your progress with detailed charts and analytics that show your improvements over time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workout Plans Section -->
+    <section class="workout-plans" id="workouts">
+        <div class="container">
+            <div class="section-title">
+                <h2>Workout Plans</h2>
+                <p>Targeted workouts for your specific goals</p>
+            </div>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <div class="plan-image" style="background-image: url('https://images.unsplash.com/photo-1536922246289-88c42f957773?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="plan-content">
+                        <h3>Glute Building Program</h3>
+                        <p>4-week intensive program focused on building and shaping your glutes.</p>
+                        <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">View Plan</a>
+                    </div>
+                </div>
+                <div class="plan-card">
+                    <div class="plan-image" style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="plan-content">
+                        <h3>Belly Fat Burner</h3>
+                        <p>Targeted exercises and cardio to help you lose stubborn belly fat.</p>
+                        <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">View Plan</a>
+                    </div>
+                </div>
+                <div class="plan-card">
+                    <div class="plan-image" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="plan-content">
+                        <h3>Total Body Transformation</h3>
+                        <p>Complete program for weight loss and muscle toning.</p>
+                        <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">View Plan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nutrition Section -->
+    <section class="nutrition" id="nutrition">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nutrition & Diet</h2>
+                <p>Fuel your body with the right nutrients</p>
+            </div>
+            <div class="nutrition-grid">
+                <div class="nutrition-card">
+                    <div class="nutrition-image" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="nutrition-content">
+                        <h3>Muscle Building Meals</h3>
+                        <p>High-protein meals to support muscle growth and recovery.</p>
+                        <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">View Recipes</a>
+                    </div>
+                </div>
+                <div class="nutrition-card">
+                    <div class="nutrition-image" style="background-image: url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="nutrition-content">
+                        <h3>Weight Loss Plans</h3>
+                        <p>Low-calorie, nutrient-dense meals for effective weight loss.</p>
+                        <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">View Recipes</a>
+                    </div>
+                </div>
+                <div class="nutrition-card">
+                    <div class="nutrition-image" style="background-image: url('https://images.unsplash.com/photo-1494390248081-4e521a5940db?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="nutrition-content">
+                        <h3>Vegetarian Options</h3>
+                        <p>Plant-based meals packed with protein and essential nutrients.</p>
+                        <a href="#" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">View Recipes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Getting started with FitnessPal is simple</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Create Your Account</h3>
+                    <p>Sign up and tell us about your fitness goals, preferences, and current level.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Get Your Plan</h3>
+                    <p>Receive a personalized workout and nutrition plan designed specifically for you.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Track Your Progress</h3>
+                    <p>Follow your plan, log your activities, and see your transformation unfold.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Achieve Your Goals</h3>
+                    <p>Reach your fitness targets and become the best version of yourself.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Success Stories</h2>
+                <p>Hear from our satisfied users</p>
+            </div>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "FitnessPal completely transformed my approach to health. I've lost 25 pounds in 3 months and gained so much energy!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4>Sarah Johnson</h4>
+                            <p>Lost 25 pounds</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "The personalized workout plans and meal suggestions helped me build muscle mass I've been trying to gain for years."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4>Michael Rodriguez</h4>
+                            <p>Gained 15lbs muscle</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "As a busy mom, the reminders and scheduling features keep me consistent with my fitness routine. Love this app!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4>Jennifer Williams</h4>
+                            <p>Busy professional</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Motivation Section -->
+    <section class="motivation">
+        <div class="container">
+            <div class="quote">
+                "The only bad workout is the one that didn't happen. Keep pushing, keep striving, and never give up on your fitness journey."
+            </div>
+            <div class="author">- FitnessPal Team</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FitnessPal</h3>
+                    <p>Your personal fitness companion helping you achieve your health and wellness goals through personalized plans and daily support.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#workouts">Workouts</a></li>
+                        <li><a href="#nutrition">Nutrition</a></li>
+                        <li><a href="#testimonials">Success Stories</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> support@fitnesspal.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Fitness Ave, Healthy City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 FitnessPal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login/Signup Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="modal-tabs">
+                <div class="modal-tab active" id="login-tab">Login</div>
+                <div class="modal-tab" id="signup-tab">Sign Up</div>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="form-submit">Login</button>
+            </form>
+            <form id="signup-form" style="display: none;">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <button type="submit" class="form-submit">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const authModal = document.getElementById('auth-modal');
+        const loginBtn = document.getElementById('login-btn');
+        const getStartedBtn = document.getElementById('get-started-btn');
+        const closeModal = document.getElementById('close-modal');
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        
+        function openModal() {
+            authModal.style.display = 'flex';
+        }
+        
+        function closeModalFunc() {
+            authModal.style.display = 'none';
+        }
+        
+        loginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal();
+        });
+        
+        getStartedBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal();
+        });
+        
+        closeModal.addEventListener('click', closeModalFunc);
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === authModal) {
+                closeModalFunc();
+            }
+        });
+        
+        loginTab.addEventListener('click', function() {
+            loginTab.classList.add('active');
+            signupTab.classList.remove('active');
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+        });
+        
+        signupTab.addEventListener('click', function() {
+            signupTab.classList.add('active');
+            loginTab.classList.remove('active');
+            signupForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        });
+        
+        // Form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real app, you would handle login authentication here
+            alert('Login functionality would be implemented here. Redirecting to dashboard...');
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+        
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real app, you would handle user registration here
+            alert('Account creation functionality would be implemented here. Redirecting to dashboard...');
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

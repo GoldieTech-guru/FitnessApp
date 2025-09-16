@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workouts - FitnessPal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitnessPal</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="workouts.html" class="active">Workouts</a></li>
+                    <li><a href="nutrition.html">Nutrition</a></li>
+                    <li><a href="progress.html">Progress</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">Hello, User!</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Workouts Main Content -->
+    <main class="dashboard-container">
+        <div class="container">
+            <section class="welcome-section">
+                <h1>Workout Programs</h1>
+                <p>Choose from our specialized workout programs designed for your fitness goals</p>
+            </section>
+
+            <!-- Workout Options -->
+            <section class="workout-options">
+                <div class="workout-grid">
+                    <div class="workout-option-card" data-workout="glutes">
+                        <div class="workout-option-image" style="background-image: url('https://images.unsplash.com/photo-1536922246289-88c42f957773?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="workout-option-content">
+                            <h3>Glute Building</h3>
+                            <p>4-week intensive program focused on building and shaping your glutes.</p>
+                            <button class="btn view-workout">View Plan</button>
+                        </div>
+                    </div>
+                    <div class="workout-option-card" data-workout="weightloss">
+                        <div class="workout-option-image" style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="workout-option-content">
+                            <h3>Weight Loss</h3>
+                            <p>Cardio and strength training combination to help you lose weight effectively.</p>
+                            <button class="btn view-workout">View Plan</button>
+                        </div>
+                    </div>
+                    <div class="workout-option-card" data-workout="musclegain">
+                        <div class="workout-option-image" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="workout-option-content">
+                            <h3>Muscle Gain</h3>
+                            <p>Build muscle mass with this strength-focused training program.</p>
+                            <button class="btn view-workout">View Plan</button>
+                        </div>
+                    </div>
+                    <div class="workout-option-card" data-workout="abs">
+                        <div class="workout-option-image" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="workout-option-content">
+                            <h3>Core & Abs</h3>
+                            <p>Strengthen your core and develop defined abdominal muscles.</p>
+                            <button class="btn view-workout">View Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workout Schedule -->
+            <section class="workout-schedule">
+                <h2>Your Weekly Schedule</h2>
+                <div class="schedule-container">
+                    <div class="schedule-day">
+                        <h3>Monday</h3>
+                        <p>Upper Body Strength</p>
+                        <span class="schedule-time">9:00 AM</span>
+                    </div>
+                    <div class="schedule-day">
+                        <h3>Tuesday</h3>
+                        <p>Cardio & Core</p>
+                        <span class="schedule-time">9:00 AM</span>
+                    </div>
+                    <div class="schedule-day">
+                        <h3>Wednesday</h3>
+                        <p>Lower Body Strength</p>
+                        <span class="schedule-time">9:00 AM</span>
+                    </div>
+                    <div class="schedule-day">
+                        <h3>Thursday</h3>
+                        <p>Active Recovery</p>
+                        <span class="schedule-time">9:00 AM</span>
+                    </div>
+                    <div class="schedule-day">
+                        <h3>Friday</h3>
+                        <p>Full Body HIIT</p>
+                        <span class="schedule-time">9:00 AM</span>
+                    </div>
+                    <div class="schedule-day">
+                        <h3>Saturday</h3>
+                        <p>Yoga & Stretching</p>
+                        <span class="schedule-time">10:00 AM</span>
+                    </div>
+                    <div class="schedule-day">
+                        <h3>Sunday</h3>
+                        <p>Rest Day</p>
+                        <span class="schedule-time">-</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Workout Detail Modal -->
+    <div class="modal" id="workout-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="workout-details" id="workout-details">
+                <!-- Content will be loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FitnessPal</h3>
+                    <p>Your personal fitness companion helping you achieve your health and wellness goals through personalized plans and daily support.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="workouts.html">Workout Plans</a></li>
+                        <li><a href="nutrition.html">Nutrition</a></li>
+                        <li><a href="progress.html">Progress Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 FitnessPal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/workouts.js"></script>
+    <script src="scripts/auth.js"></script>
+</body>
+</html>

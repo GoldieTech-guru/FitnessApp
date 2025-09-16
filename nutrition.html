@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition - FitnessPal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitnessPal</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="workouts.html">Workouts</a></li>
+                    <li><a href="nutrition.html" class="active">Nutrition</a></li>
+                    <li><a href="progress.html">Progress</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">Hello, User!</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Nutrition Main Content -->
+    <main class="dashboard-container">
+        <div class="container">
+            <section class="welcome-section">
+                <h1>Nutrition & Meal Plans</h1>
+                <p>Discover meal plans tailored to your fitness goals and dietary preferences</p>
+            </section>
+
+            <!-- Meal Type Selector -->
+            <section class="meal-type-selector">
+                <h2>Select Meal Type</h2>
+                <div class="meal-type-buttons">
+                    <button class="meal-type-btn active" data-meal-type="breakfast">Breakfast</button>
+                    <button class="meal-type-btn" data-meal-type="lunch">Lunch</button>
+                    <button class="meal-type-btn" data-meal-type="dinner">Dinner</button>
+                    <button class="meal-type-btn" data-meal-type="snacks">Snacks</button>
+                </div>
+            </section>
+
+            <!-- Meal Recommendations -->
+            <section class="meal-recommendations">
+                <h2>Recommended Meals</h2>
+                <div class="meals-container" id="meals-container">
+                    <!-- Content will be loaded by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Meal Planner -->
+            <section class="meal-planner">
+                <h2>Weekly Meal Planner</h2>
+                <div class="planner-container">
+                    <div class="planner-day">
+                        <h3>Monday</h3>
+                        <div class="planner-meals">
+                            <div class="planner-meal">
+                                <strong>Breakfast:</strong> Greek Yogurt with Berries
+                            </div>
+                            <div class="planner-meal">
+                                <strong>Lunch:</strong> Grilled Chicken Salad
+                            </div>
+                            <div class="planner-meal">
+                                <strong>Dinner:</strong> Salmon with Quinoa
+                            </div>
+                        </div>
+                    </div>
+                    <div class="planner-day">
+                        <h3>Tuesday</h3>
+                        <div class="planner-meals">
+                            <div class="planner-meal">
+                                <strong>Breakfast:</strong> Avocado Toast with Eggs
+                            </div>
+                            <div class="planner-meal">
+                                <strong>Lunch:</strong> Quinoa Bowl with Vegetables
+                            </div>
+                            <div class="planner-meal">
+                                <strong>Dinner:</strong> Lean Beef Stir Fry
+                            </div>
+                        </div>
+                    </div>
+                    <!-- More days would go here -->
+                </div>
+            </section>
+
+            <!-- Macronutrient Tracker -->
+            <section class="macro-tracker">
+                <h2>Macronutrient Tracker</h2>
+                <div class="macro-progress">
+                    <div class="macro-item">
+                        <h3>Protein</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+                        <span>65% (130g of 150g)</span>
+                    </div>
+                    <div class="macro-item">
+                        <h3>Carbs</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                        <span>45% (180g of 250g)</span>
+                    </div>
+                    <div class="macro-item">
+                        <h3>Fat</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 35%"></div>
+                        </div>
+                        <span>35% (35g of 70g)</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Recipe Modal -->
+    <div class="modal" id="recipe-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-recipe-modal">&times;</span>
+            <div class="recipe-details" id="recipe-content">
+                <!-- Content will be loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FitnessPal</h3>
+                    <p>Your personal fitness companion helping you achieve your health and wellness goals through personalized plans and daily support.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="workouts.html">Workout Plans</a></li>
+                        <li><a href="nutrition.html">Nutrition</a></li>
+                        <li><a href="progress.html">Progress Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 FitnessPal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/nutrition.js"></script>
+    <script src="scripts/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress - FitnessPal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitnessPal</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="workouts.html">Workouts</a></li>
+                    <li><a href="nutrition.html">Nutrition</a></li>
+                    <li><a href="progress.html" class="active">Progress</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">Hello, User!</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Progress Main Content -->
+    <main class="dashboard-container">
+        <div class="container">
+            <section class="welcome-section">
+                <h1>Your Progress</h1>
+                <p>Track your fitness journey and see how far you've come</p>
+            </section>
+
+            <!-- Progress Overview -->
+            <section class="progress-overview">
+                <div class="progress-stats">
+                    <div class="progress-stat">
+                        <h3>Workouts Completed</h3>
+                        <span class="stat-value">24</span>
+                        <span class="stat-change">+5 this week</span>
+                    </div>
+                    <div class="progress-stat">
+                        <h3>Current Streak</h3>
+                        <span class="stat-value">7 days</span>
+                        <span class="stat-change">Keep it up!</span>
+                    </div>
+                    <div class="progress-stat">
+                        <h3>Calories Burned</h3>
+                        <span class="stat-value">12,450</span>
+                        <span class="stat-change">+1,240 today</span>
+                    </div>
+                    <div class="progress-stat">
+                        <h3>Total Steps</h3>
+                        <span class="stat-value">85,620</span>
+                        <span class="stat-change">+8,560 today</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Weight Progress -->
+            <section class="weight-progress">
+                <h2>Weight Progress</h2>
+                <div class="weight-chart-container" id="weight-chart-container">
+                    <!-- Chart will be loaded by JavaScript -->
+                </div>
+                <div class="weight-history">
+                    <h3>Weight History</h3>
+                    <ul id="weight-list">
+                        <!-- Content will be loaded by JavaScript -->
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Workout Progress -->
+            <section class="workout-progress">
+                <h2>Workout Completion</h2>
+                <div class="workout-stats" id="workout-stats">
+                    <!-- Content will be loaded by JavaScript -->
+                </div>
+                <div class="achievements">
+                    <h3>Achievements</h3>
+                    <div class="achievement-list">
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="achievement-details">
+                                <h4>First Workout</h4>
+                                <p>Completed your first workout</p>
+                                <span class="achievement-date">Earned: Sep 15, 2023</span>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="achievement-details">
+                                <h4>Strength Master</h4>
+                                <p>Completed 10 strength workouts</p>
+                                <span class="achievement-date">Earned: Sep 20, 2023</span>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-running"></i>
+                            </div>
+                            <div class="achievement-details">
+                                <h4>Cardio Enthusiast</h4>
+                                <p>Completed 5 cardio workouts</p>
+                                <span class="achievement-date">Earned: Sep 18, 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hydration Progress -->
+            <section class="hydration-progress">
+                <h2>Hydration Tracking</h2>
+                <div class="hydration-stats" id="hydration-progress">
+                    <!-- Content will be loaded by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FitnessPal</h3>
+                    <p>Your personal fitness companion helping you achieve your health and wellness goals through personalized plans and daily support.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="workouts.html">Workout Plans</a></li>
+                        <li><a href="nutrition.html">Nutrition</a></li>
+                        <li><a href="progress.html">Progress Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 FitnessPal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/progress.js"></script>
+    <script src="scripts/auth.js"></script>
+</body>
+</html>
